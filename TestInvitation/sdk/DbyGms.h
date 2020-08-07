@@ -436,13 +436,10 @@ namespace duobei {
 		public:
 			virtual ~DbyGmsEventHandler() {}
 
-			virtual void onLoginSuccess() {
-				std::cout << "onLoginSuccess---------------------" << std::endl;
-			}
+			virtual void onLoginSuccess() {}
 			
 			virtual void onLoginFailure(LOGIN_ERR_CODE errorCode) {
 				(void)errorCode;
-				std::cout << "onLoginFailure----------------------" << (int)errorCode << std::endl;
 			}
 
 			virtual void onLogout(LOGOUT_ERR_CODE errorcode) {
