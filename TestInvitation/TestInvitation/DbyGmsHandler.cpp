@@ -3,6 +3,8 @@
 #include "ObjectMngr.h"
 void DbyGmsInvitationHandler::onFailure(Invitation *invitation, INVITATION_ERR_CODE reason)
 {
+	if (!invitation)
+		return;
 	QString inviter, invitee, requestInfo, responseInfo;
 	int state;
 	inviter = invitation->getInviter();
@@ -15,21 +17,29 @@ void DbyGmsInvitationHandler::onFailure(Invitation *invitation, INVITATION_ERR_C
 
 void DbyGmsInvitationHandler::onArrived(Invitation *invitation)
 {
+	if (!invitation)
+		return;
 	InvokeData("SigArrived", invitation);
 }
 
 void DbyGmsInvitationHandler::onCanceled(Invitation *invitation)
 {
+	if (!invitation)
+		return;
 	InvokeData("SigCanceled", invitation);
 }
 
 void DbyGmsInvitationHandler::onAccepted(Invitation *invitation)
 {
+	if (!invitation)
+		return;
 	InvokeData("SigAccepted", invitation);
 }
 
 void DbyGmsInvitationHandler::onRefused(Invitation *invitation)
 {
+	if (!invitation)
+		return;
 	InvokeData("SigRefused", invitation);
 }
 
@@ -40,6 +50,8 @@ void DbyGmsInvitationHandler::onInvitationApiCallError(INVITATION_API_CALL_ERR_C
 
 void DbyGmsInvitationHandler::InvokeData(const char* type, Invitation *invitation)
 {
+	if (!invitation || std::string(type).empty())
+		return;
 	QString inviter, invitee, requestInfo, responseInfo;
 	int state;
 	inviter = invitation->getInviter();
@@ -53,9 +65,9 @@ void DbyGmsInvitationHandler::InvokeData(const char* type, Invitation *invitatio
 
 void DbyGmsPrivateHandler::onLoginSuccess()
 {
-	qDebug() << "onLoginSuccess";
+	/*qDebug() << "onLoginSuccess";
 	int res = QMetaObject::invokeMethod(ObjectMngr::GetObjectManager(), "SigLogin");
-	qDebug() << "onLoginSuccess  " << res;
+	qDebug() << "onLoginSuccess  " << res;*/
 }
 
 void DbyGmsPrivateHandler::onLoginFailure(LOGIN_ERR_CODE errorCode)

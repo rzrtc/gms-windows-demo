@@ -44,11 +44,18 @@ void TestInvitation::OnSend()
 	std::string uid = ui.lineEdit_userid->text().toStdString();
 	std::string invitee = ui.lineEdit_invitee->text().toStdString();
 	std::string requestinfo = ui.lineEdit_request->text().toStdString();
+	if (uid.empty() || invitee.empty())
+	{
+		updateStatusBar("param error");
+		return;
+	}
+		
 	m_pInvitation = pInvitationManager->create(uid.c_str(), invitee.c_str(), requestinfo.c_str());
 	pInvitationManager->send(m_pInvitation);
 
-	int ret = pInvitationManager->destroy(m_pInvitation);
-	std::cout << "ret = " << ret << std::endl;
+	//
+	/*int ret = pInvitationManager->destroy(m_pInvitation);
+	std::cout << "ret = " << ret << std::endl;*/
 }
 
 void TestInvitation::OnAccept()
@@ -82,7 +89,7 @@ void TestInvitation::OnLoginSuccess()
 
 void TestInvitation::OnLoginFailure(int code)
 {
-	updateStatusBar("login success");
+	updateStatusBar("login failed");
 }
 
 void TestInvitation::OnLogout(int code)
