@@ -1,3 +1,6 @@
 TestInvitation/.vs/
+TestInvitation/Debug/*
+!TestInvitation/Debug/RZGMS.dll
+TestInvitation/TestInvitation/Debug/
 TestInvitation/Release/
 TestInvitation/TestInvitation/Release/

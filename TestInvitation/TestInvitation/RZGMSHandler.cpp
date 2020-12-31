@@ -1,7 +1,7 @@
-#include "DbyGmsHandler.h"
+#include "RZGMSHandler.h"
 #include <QDebug>
 #include "ObjectMngr.h"
-void DbyGmsInvitationHandler::onFailure(Invitation *invitation, INVITATION_ERR_CODE reason)
+void RZGMSInvitationHandler::onFailure(Invitation *invitation, INVITATION_ERR_CODE reason)
 {
 	if (!invitation)
 		return;
@@ -15,40 +15,40 @@ void DbyGmsInvitationHandler::onFailure(Invitation *invitation, INVITATION_ERR_C
 	int res = QMetaObject::invokeMethod(ObjectMngr::GetObjectManager(), "SigFailure", Q_ARG(QString, inviter), Q_ARG(QString, invitee), Q_ARG(QString, requestInfo), Q_ARG(QString, responseInfo), Q_ARG(int, state), Q_ARG(int, (int)reason));
 }
 
-void DbyGmsInvitationHandler::onArrived(Invitation *invitation)
+void RZGMSInvitationHandler::onArrived(Invitation *invitation)
 {
 	if (!invitation)
 		return;
 	InvokeData("SigArrived", invitation);
 }
 
-void DbyGmsInvitationHandler::onCanceled(Invitation *invitation)
+void RZGMSInvitationHandler::onCanceled(Invitation *invitation)
 {
 	if (!invitation)
 		return;
 	InvokeData("SigCanceled", invitation);
 }
 
-void DbyGmsInvitationHandler::onAccepted(Invitation *invitation)
+void RZGMSInvitationHandler::onAccepted(Invitation *invitation)
 {
 	if (!invitation)
 		return;
 	InvokeData("SigAccepted", invitation);
 }
 
-void DbyGmsInvitationHandler::onRefused(Invitation *invitation)
+void RZGMSInvitationHandler::onRefused(Invitation *invitation)
 {
 	if (!invitation)
 		return;
 	InvokeData("SigRefused", invitation);
 }
 
-void DbyGmsInvitationHandler::onInvitationApiCallError(INVITATION_API_CALL_ERR_CODE errorcode)
+void RZGMSInvitationHandler::onInvitationApiCallError(INVITATION_API_CALL_ERR_CODE errorcode)
 {
 	int res = QMetaObject::invokeMethod(ObjectMngr::GetObjectManager(), "SigInvitationApiCallError", Q_ARG(int, (int)errorcode));
 }
 
-void DbyGmsInvitationHandler::InvokeData(const char* type, Invitation *invitation)
+void RZGMSInvitationHandler::InvokeData(const char* type, Invitation *invitation)
 {
 	if (!invitation || std::string(type).empty())
 		return;
@@ -63,26 +63,26 @@ void DbyGmsInvitationHandler::InvokeData(const char* type, Invitation *invitatio
 	qDebug() << "type = " << type << " res = " << res;
 }
 
-void DbyGmsPrivateHandler::onLoginSuccess()
+void RZGMSPrivateHandler::onLoginSuccess()
 {
 	/*qDebug() << "onLoginSuccess";
 	int res = QMetaObject::invokeMethod(ObjectMngr::GetObjectManager(), "SigLogin");
 	qDebug() << "onLoginSuccess  " << res;*/
 }
 
-void DbyGmsPrivateHandler::onLoginFailure(LOGIN_ERR_CODE errorCode)
+void RZGMSPrivateHandler::onLoginFailure(LOGIN_ERR_CODE errorCode)
 {
 	int res = QMetaObject::invokeMethod(ObjectMngr::GetObjectManager(), "SigLoginFailure", Q_ARG(int, (int)errorCode));
 	qDebug() << "onLoginFailure " << errorCode;
 }
 
-void DbyGmsPrivateHandler::onLogout(LOGOUT_ERR_CODE errorcode)
+void RZGMSPrivateHandler::onLogout(LOGOUT_ERR_CODE errorcode)
 {
 	int res = QMetaObject::invokeMethod(ObjectMngr::GetObjectManager(), "SigLogout", Q_ARG(int, (int)errorcode));
 	qDebug() << "onLogout " << errorcode;
 }
 
-void DbyGmsPrivateHandler::onConnectionStateChanged(CONNECTION_STATE state, CONNECTION_CHANGE_REASON reason)
+void RZGMSPrivateHandler::onConnectionStateChanged(CONNECTION_STATE state, CONNECTION_CHANGE_REASON reason)
 {
 	int res = QMetaObject::invokeMethod(ObjectMngr::GetObjectManager(), "SigConnectionStateChanged", Q_ARG(int, (int)state), Q_ARG(int, (int)reason));
 	qDebug() << "onConnectionStateChanged " << state << "  " << reason;

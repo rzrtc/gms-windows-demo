@@ -1,11 +1,11 @@
 #include "TestInvitation.h"
 #include <sstream>
 #include "ObjectMngr.h"
-#include "DbyGmsObject.h"
+#include "RZGMSObject.h"
 #include "md5.h"
 
-#define APPID "1824a0bff47e4f47bdce956c5e9025ad"
-#define APPKEY "24f5595baa8645fd947051e75ffcdcc4"
+#define APPID "appId"
+#define APPKEY "appKey"
 #define USERID "2"
 std::string lltoString(long long timestamp);
 uint64_t getSign(std::string &appid, std::string &userid, std::string &strtoken);
@@ -16,8 +16,8 @@ TestInvitation::TestInvitation(QWidget *parent)
     ui.setupUi(this);
 	init();
 	//³õÊ¼»¯
-	DbyGmsObject::Instance()->GetDbyGmsInstance();
-	DbyGmsObject::Instance()->GetInvitationManagerInstance();
+	RZGMSObject::Instance()->GetRZGMSInstance();
+	RZGMSObject::Instance()->GetInvitationManagerInstance();
 }
 
 void TestInvitation::OnLogin()
@@ -25,18 +25,18 @@ void TestInvitation::OnLogin()
 	std::string uid = ui.lineEdit_userid->text().toStdString();
 	std::string token;
 	uint64_t timestamp = getSign(std::string(APPID), uid, token);
-	DbyGmsObject::Instance()->GetDbyGmsInstance()->login(token.c_str(), uid.c_str(), timestamp);
+	RZGMSObject::Instance()->GetRZGMSInstance()->login(token.c_str(), uid.c_str(), timestamp);
 }
 
 void TestInvitation::OnLogout()
 {
-	DbyGmsObject::Instance()->GetDbyGmsInstance()->logout();
+	RZGMSObject::Instance()->GetRZGMSInstance()->logout();
 }
 
 void TestInvitation::OnSend()
 {
 	
-	InvitationManager* pInvitationManager = DbyGmsObject::Instance()->GetInvitationManagerInstance();
+	InvitationManager* pInvitationManager = RZGMSObject::Instance()->GetInvitationManagerInstance();
 	/*if (m_pInvitation)
 	{
 
@@ -63,7 +63,7 @@ void TestInvitation::OnAccept()
 	if (!m_pInvitation)
 		return;
 
-	DbyGmsObject::Instance()->GetInvitationManagerInstance()->accept(m_pInvitation);
+	RZGMSObject::Instance()->GetInvitationManagerInstance()->accept(m_pInvitation);
 }
 
 void TestInvitation::OnRefuse()
@@ -71,7 +71,7 @@ void TestInvitation::OnRefuse()
 	if (!m_pInvitation)
 		return;
 
-	DbyGmsObject::Instance()->GetInvitationManagerInstance()->refuse(m_pInvitation);
+	RZGMSObject::Instance()->GetInvitationManagerInstance()->refuse(m_pInvitation);
 }
 
 void TestInvitation::OnCancel()
@@ -79,7 +79,7 @@ void TestInvitation::OnCancel()
 	if (!m_pInvitation)
 		return;
 
-	DbyGmsObject::Instance()->GetInvitationManagerInstance()->cancel(m_pInvitation);
+	RZGMSObject::Instance()->GetInvitationManagerInstance()->cancel(m_pInvitation);
 }
 
 void TestInvitation::OnLoginSuccess()
@@ -114,7 +114,7 @@ void TestInvitation::OnArrived(QString inviter, QString invitee, QString request
 {
 	if (!m_pInvitation)
 	{
-		m_pInvitation = DbyGmsObject::Instance()->GetInvitationManagerInstance()->create(inviter.toLocal8Bit().constData(), invitee.toLocal8Bit().constData(), request.toLocal8Bit().constData());
+		m_pInvitation = RZGMSObject::Instance()->GetInvitationManagerInstance()->create(inviter.toLocal8Bit().constData(), invitee.toLocal8Bit().constData(), request.toLocal8Bit().constData());
 	}
 
 	/*m_pInvitation->setInviter(inviter.toLocal8Bit().constData());
@@ -131,7 +131,7 @@ void TestInvitation::OnCanceled(QString inviter, QString invitee, QString reques
 {
 	if (!m_pInvitation)
 	{
-		m_pInvitation = DbyGmsObject::Instance()->GetInvitationManagerInstance()->create(inviter.toLocal8Bit().constData(), invitee.toLocal8Bit().constData(), request.toLocal8Bit().constData());
+		m_pInvitation = RZGMSObject::Instance()->GetInvitationManagerInstance()->create(inviter.toLocal8Bit().constData(), invitee.toLocal8Bit().constData(), request.toLocal8Bit().constData());
 	}
 
 	/*m_pInvitation->setInviter(inviter.toLocal8Bit().constData());
@@ -149,7 +149,7 @@ void TestInvitation::OnAccepted(QString inviter, QString invitee, QString reques
 {
 	if (!m_pInvitation)
 	{
-		m_pInvitation = DbyGmsObject::Instance()->GetInvitationManagerInstance()->create(inviter.toLocal8Bit().constData(), invitee.toLocal8Bit().constData(), request.toLocal8Bit().constData());
+		m_pInvitation = RZGMSObject::Instance()->GetInvitationManagerInstance()->create(inviter.toLocal8Bit().constData(), invitee.toLocal8Bit().constData(), request.toLocal8Bit().constData());
 	}
 
 	/*m_pInvitation->setInviter(inviter.toLocal8Bit().constData());
@@ -167,7 +167,7 @@ void TestInvitation::OnRefused(QString inviter, QString invitee, QString request
 {
 	if (!m_pInvitation)
 	{
-		m_pInvitation = DbyGmsObject::Instance()->GetInvitationManagerInstance()->create(inviter.toLocal8Bit().constData(), invitee.toLocal8Bit().constData(), request.toLocal8Bit().constData());
+		m_pInvitation = RZGMSObject::Instance()->GetInvitationManagerInstance()->create(inviter.toLocal8Bit().constData(), invitee.toLocal8Bit().constData(), request.toLocal8Bit().constData());
 	}
 
 	/*m_pInvitation->setInviter(inviter.toLocal8Bit().constData());

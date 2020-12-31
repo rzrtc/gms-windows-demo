@@ -1,12 +1,12 @@
 #pragma once
-#include <DbyGms.h>
-using namespace duobei;
+#include <RZGMS.h>
+using namespace rz;
 using namespace gms;
-class DbyGmsInvitationHandler : public GmsInvitationEventListener
+class RZGMSInvitationHandler : public GMSInvitationEventListener
 {
 public:
-	DbyGmsInvitationHandler() {}
-	virtual ~DbyGmsInvitationHandler() {}
+	RZGMSInvitationHandler() {}
+	virtual ~RZGMSInvitationHandler() {}
 
 	void onFailure(Invitation *invitation, INVITATION_ERR_CODE reason) override;
 	void onArrived(Invitation *invitation) override;
@@ -19,11 +19,11 @@ private:
 	void InvokeData(const char* type, Invitation *invitation);
 };
 
-class DbyGmsPrivateHandler : public DbyGmsEventHandler
+class RZGMSPrivateHandler : public RZGMSEventHandler
 {
 public:
-	DbyGmsPrivateHandler() {}
-	~DbyGmsPrivateHandler() {}
+	RZGMSPrivateHandler() {}
+	~RZGMSPrivateHandler() {}
 
 	void onLoginSuccess() override;
 	void onLoginFailure(LOGIN_ERR_CODE errorCode) override;

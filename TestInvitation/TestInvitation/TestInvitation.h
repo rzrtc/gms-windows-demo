@@ -2,7 +2,7 @@
 
 #include <QtWidgets/QMainWindow>
 #include "ui_TestInvitation.h"
-#include "DbyGmsObject.h"
+#include "RZGMSObject.h"
 
 class TestInvitation : public QMainWindow
 {

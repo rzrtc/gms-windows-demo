@@ -3,19 +3,19 @@
 #include <stddef.h>
 #include <iostream>
 
-#define DBYAPI_EXPORT
+#define RZAPI_EXPORT
 
-#define DBY_CALL __cdecl
+#define RZ_CALL __cdecl
 
-#if defined(DBYAPI_EXPORT)
-#define DBY_API extern "C" __declspec(dllexport)
+#if defined(RZAPI_EXPORT)
+#define RZ_API extern "C" __declspec(dllexport)
 #else
-#define DBY_API extern "C" __declspec(dllimport)
+#define RZ_API extern "C" __declspec(dllimport)
 #endif
 
-namespace duobei {
+namespace rz {
 	namespace gms {
-		class DbyGmsEventHandler;
+		class RZGMSEventHandler;
 
 		enum LOGIN_ERR_CODE {
 			LOGIN_ERR_OK = 0,
@@ -95,7 +95,7 @@ namespace duobei {
 		enum GET_CHANNEL_MEMBERS_ERR {
 			GET_CHANNEL_MEMBERS_ERR_OK = 0,
 			GET_CHANNEL_MEMBERS_ERR_FAILURE = 1,
-			GET_CHANNEL_MEMBERS_ERR_REJECTED = 2,
+			GET_CHANNEL_MEMBERS_ERR_INVALID_ARGUMENT = 2,
 			GET_CHANNEL_MEMBERS_ERR_TIMEOUT = 3,
 			GET_CHANNEL_MEMBERS_ERR_TOO_OFTEN = 4,
 			GET_CHANNEL_MEMBERS_ERR_NOT_IN_CHANNEL = 5,
@@ -264,6 +264,8 @@ namespace duobei {
 
 			virtual MESSAGE_TYPE getMessageType() const = 0;
 
+			virtual void setMessageType(MESSAGE_TYPE msgType) = 0;
+
 			virtual void setText(const char *str) = 0;
 
 			virtual const char *getText() const = 0;
@@ -321,10 +323,10 @@ namespace duobei {
 			virtual const char* getResponseInfo() = 0;
 		};
 
-		class GmsInvitationEventListener
+		class GMSInvitationEventListener
 		{
 		public:
-			virtual ~GmsInvitationEventListener() {};
+			virtual ~GMSInvitationEventListener() {};
 		public:
 			virtual void onFailure(Invitation *invitation, INVITATION_ERR_CODE reason)
 			{
@@ -367,12 +369,12 @@ namespace duobei {
 			virtual int destroy(Invitation* invitation) = 0;
 		};
 
-		class DbyGms
+		class RZGMS
 		{
 		protected:
-			virtual ~DbyGms() {}
+			virtual ~RZGMS() {}
 		public:
-			virtual void initialize(const char* appId, DbyGmsEventHandler* eventHandler) = 0;
+			virtual void initialize(const char* appId, RZGMSEventHandler* eventHandler) = 0;
 			virtual void login(const char* token, const char* userId, uint64_t timestamp) = 0;
 			virtual void logout() = 0;
 			virtual int renewToken(const char* token, uint64_t timestamp) = 0;
@@ -418,16 +420,16 @@ namespace duobei {
 			virtual void sendMessageToPeer(const char* peerId, const IMessage* message, const SendMessageOptions& options, long long requestid) = 0;
 
 			//ºô½ÐÑûÇë
-			virtual InvitationManager* getGmsInvitationManager(GmsInvitationEventListener* handler) = 0;
+			virtual InvitationManager* getGMSInvitationManager(GMSInvitationEventListener* handler) = 0;
 
 			//TESTtoken
 			//virtual int getTokenParams(const char* appid, const char* userid, uint64_t timestamp, const char* appkey, char* token) = 0;
 		};
 
-		class DbyGmsEventHandler
+		class RZGMSEventHandler
 		{
 		public:
-			virtual ~DbyGmsEventHandler() {}
+			virtual ~RZGMSEventHandler() {}
 
 			virtual void onLoginSuccess() {}
 			
@@ -620,7 +622,7 @@ namespace duobei {
 		};
 
 
-		DBY_API DbyGms* DBY_CALL createDbyGmsEngine();
-		DBY_API void DBY_CALL destroyDbyGmsEngine();
+		RZ_API RZGMS* RZ_CALL createRZGMSEngine();
+		RZ_API int RZ_CALL destroyRZGMSEngine(RZGMS* p);
 	}
 }

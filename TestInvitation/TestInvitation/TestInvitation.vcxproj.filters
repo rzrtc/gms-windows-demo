@@ -47,10 +47,10 @@
     <ClCompile Include="main.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="DbyGmsObject.cpp">
+    <ClCompile Include="RZGMSObject.cpp">
       <Filter>wrapper</Filter>
     </ClCompile>
-    <ClCompile Include="DbyGmsHandler.cpp">
+    <ClCompile Include="RZGMSHandler.cpp">
       <Filter>wrapper</Filter>
     </ClCompile>
     <ClCompile Include="md5.cpp">
@@ -61,10 +61,10 @@
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="DbyGmsObject.h">
+    <ClInclude Include="RZGMSObject.h">
       <Filter>wrapper</Filter>
     </ClInclude>
-    <ClInclude Include="DbyGmsHandler.h">
+    <ClInclude Include="RZGMSHandler.h">
       <Filter>wrapper</Filter>
     </ClInclude>
     <ClInclude Include="md5.h">
