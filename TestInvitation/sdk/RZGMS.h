@@ -13,6 +13,9 @@
 #define RZ_API extern "C" __declspec(dllimport)
 #endif
 
+
+#define RZGMS_SDK_VERSION "1.2.0"
+
 namespace rz {
 	namespace gms {
 		class RZGMSEventHandler;
@@ -225,6 +228,16 @@ namespace rz {
 			INVITATION_ERR_NOT_LOGGED_IN
 		};
 
+		struct EnvConfig
+		{
+			std::string* apiServer = nullptr;
+		};
+
+		struct RZGMSOptions
+		{
+			EnvConfig envConfig;
+		};
+
 		struct SendMessageOptions {
 			bool enableOfflineMessaging;
 			bool enableHistoricalMessaging;
@@ -253,6 +266,27 @@ namespace rz {
 			const char* peerId;
 			bool isOnline;
 			PEER_ONLINE_STATE onlineState;
+		};
+
+		struct TavernSocketInfo
+		{
+			std::string apiServer ; // web端服务器地址
+			std::string tavernServer ; // 当前连接的websocket服务器地址
+			std::string connectionId; // 当前 socket.io 实例的 id 值
+		};
+
+		struct LoginArgumentsInfo
+		{
+			std::string userId; // 用户login时传入的userId值
+			std::string token; // 用户login时传入的token值
+			uint64_t timestamp; // 用户login时传入的timestamp值
+		};
+
+		struct DebugInfo
+		{
+			std::string sdkVersion  ; // SDK的版本号
+			TavernSocketInfo tavernSocket;
+			LoginArgumentsInfo loginArguments;
 		};
 
 		class IMessage
@@ -374,7 +408,7 @@ namespace rz {
 		protected:
 			virtual ~RZGMS() {}
 		public:
-			virtual void initialize(const char* appId, RZGMSEventHandler* eventHandler) = 0;
+			virtual int initialize(const char* appId, RZGMSEventHandler* eventHandler, RZGMSOptions* options = nullptr) = 0;
 			virtual void login(const char* token, const char* userId, uint64_t timestamp) = 0;
 			virtual void logout() = 0;
 			virtual int renewToken(const char* token, uint64_t timestamp) = 0;
@@ -424,6 +458,7 @@ namespace rz {
 
 			//TESTtoken
 			//virtual int getTokenParams(const char* appid, const char* userid, uint64_t timestamp, const char* appkey, char* token) = 0;
+			virtual DebugInfo getDebugInfo() = 0;
 		};
 
 		class RZGMSEventHandler
