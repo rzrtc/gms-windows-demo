@@ -2,7 +2,8 @@
 #include <stdint.h>
 #include <stddef.h>
 #include <iostream>
-
+#include <vector>
+#include <map>
 #define RZAPI_EXPORT
 
 #define RZ_CALL __cdecl
@@ -14,7 +15,7 @@
 #endif
 
 
-#define RZGMS_SDK_VERSION "1.2.0"
+#define RZGMS_SDK_VERSION "1.3.0"
 
 namespace rz {
 	namespace gms {
@@ -182,6 +183,7 @@ namespace rz {
 
 		enum PEER_SUBSCRIPTION_OPTION {
 			PEER_SUBSCRIPTION_OPTION_ONLINE_STATUS = 0,
+			PEER_SUBSCRIPTION_OPTION_USER_ATTRIBUTES = 1
 		};
 
 		enum PEER_ONLINE_STATE {
@@ -261,6 +263,11 @@ namespace rz {
 			const char* value;
 		};
 
+		struct PeersUserAttributes {
+			const char* userId;
+			std::vector<IAttribute> attributes;
+		};
+
 		struct PeerOnlineStatus
 		{
 			const char* peerId;
@@ -281,6 +288,9 @@ namespace rz {
 			std::string token; // 用户login时传入的token值
 			uint64_t timestamp; // 用户login时传入的timestamp值
 		};
+
+		typedef std::map<std::string, std::string> KeyValues;
+		typedef std::map<std::string, KeyValues> PeersAttributesMap;
 
 		struct DebugInfo
 		{
@@ -438,12 +448,16 @@ namespace rz {
 			virtual void clearLocalUserAttributes(long long requestid) = 0;
 			virtual void getUserAttributes(const char* userId, long long requestid) = 0;
 			virtual void getUserAttributesByKeys(const char* userId, const char* attributesKeys[], int numberOfKeys, long long requestid) = 0;
+			virtual void getPeersUserAttributes(const char** userId, int useridCount, long long requestid) = 0;
+			virtual void getPeersUserAttributesByKeys(const char** userId, int useridCount, const char* attributesKeys[], int numberOfKeys, long long requestid) = 0;
 
 			//查询和订阅用户在线状态
 			virtual void queryPeersOnlineStatus(const char* userids[], int useridCount, long long requestId) = 0;
 			virtual void queryPeersBySubscriptionOption(PEER_SUBSCRIPTION_OPTION option, long long requestId) = 0;
 			virtual void subscribePeersOnlineStatus(const char* userids[], int useridCount, long long requestId) = 0;
 			virtual void unsubscribePeersOnlineStatus(const char* userids[], int useridCount, long long requestId) = 0;
+			virtual void subscribePeersUserAttributes(const char* userids[], int useridCount, long long requestId) = 0;
+			virtual void unsubscribePeersUserAttributes(const char* userids[], int useridCount, long long requestId) = 0;
 			
 			//点对点
 			virtual IMessage* createMessage() = 0;
@@ -612,6 +626,18 @@ namespace rz {
 				(void)requestid;
 			}
 
+			virtual void onGetPeersUserAttributes(ATTRIBUTE_OPERATION_ERR code, const PeersAttributesMap peerAttribute, long long requestid) {
+				(void)code;
+				(void)peerAttribute;
+				(void)requestid;
+			}
+
+			virtual void onGetPeersUserAttributesByKeys(ATTRIBUTE_OPERATION_ERR code, const PeersAttributesMap peerAttribute, long long requestid) {
+				(void)code;
+				(void)peerAttribute;
+				(void)requestid;
+			}
+
 			//查询和订阅用户
 			virtual void onQueryPeersOnlineStatus(long long requestId, const PeerOnlineStatus* peersStatus, int peerCount, QUERY_PEERS_ONLINE_STATUS_ERR errorCode) {
 				(void)requestId;
@@ -640,6 +666,16 @@ namespace rz {
 			virtual void onPeersOnlineStatusChanged(const PeerOnlineStatus *peersStatus, int peerCount) {
 				(void)peersStatus;
 				(void)peerCount;
+			}
+
+			virtual void onSubscribePeersUserAttributes(PEER_SUBSCRIPTION_STATUS_ERR code, const PeersUserAttributes* attributes, int idCount) {
+				(void)code;
+				(void)attributes;
+				(void)idCount;
+			}
+
+			virtual void onUnsubscribePeersUserAttributes(PEER_SUBSCRIPTION_STATUS_ERR code, long long requestid) {
+				(void)code;
 			}
 
 			//点对点消息
