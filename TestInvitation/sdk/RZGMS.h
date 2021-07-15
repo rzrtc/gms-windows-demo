@@ -15,7 +15,7 @@
 #endif
 
 
-#define RZGMS_SDK_VERSION "1.3.0"
+#define RZGMS_SDK_VERSION "1.4.0"
 
 namespace rz {
 	namespace gms {
@@ -105,6 +105,12 @@ namespace rz {
 			GET_CHANNEL_MEMBERS_ERR_NOT_IN_CHANNEL = 5,
 			GET_CHANNEL_MEMBERS_ERR_NOT_INITIALIZED = 101,
 			GET_CHANNEL_MEMBERS_ERR_USER_NOT_LOGGED_IN = 102,
+		};
+
+		enum MEMBERLEFT_REASON {
+			MEMBERLEFT_REASON_UNKNOWN, // 原因未知
+			MEMBERLEFT_REASON_QUIT, // 用户主动调用leave接口
+			MEMBERLEFT_REASON_DISCONNECT, // 服务端只感知到了用户断开连接，用户未调用leave接口
 		};
 
 		enum ATTRIBUTE_OPERATION_ERR {
@@ -531,9 +537,10 @@ namespace rz {
 			}
 
 			//
-			virtual void onMemberLeft(const char* channnelId, const char* userId) {
+			virtual void onMemberLeft(const char* channnelId, const char* userId, MEMBERLEFT_REASON reason) {
 				(void)channnelId;
 				(void)userId;
+				(void)reason;
 			}
 			
 			//频道属性
