@@ -15,7 +15,7 @@
 #endif
 
 
-#define RZGMS_SDK_VERSION "1.4.0"
+#define RZGMS_SDK_VERSION "1.5.0"
 
 namespace rz {
 	namespace gms {
