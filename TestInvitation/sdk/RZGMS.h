@@ -15,7 +15,7 @@
 #endif
 
 
-#define RZGMS_SDK_VERSION "1.5.0"
+#define RZGMS_SDK_VERSION "1.5.1"
 
 namespace rz {
 	namespace gms {
@@ -238,7 +238,8 @@ namespace rz {
 
 		struct EnvConfig
 		{
-			std::string* apiServer = nullptr;
+			const char* apiServer = nullptr;
+			const char* logServer = nullptr;
 		};
 
 		struct RZGMSOptions
